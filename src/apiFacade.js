@@ -28,7 +28,9 @@ function apiFacade() {
     const options = makeOptions("POST", true, { username: user, password: password });
     return fetch(URL + "/api/login", options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
+      .then(res => { 
+        setToken(res.token) ;
+      })
   }
 
   const fetchUserData = () => {
@@ -58,6 +60,7 @@ function apiFacade() {
     }
     return opts;
   }
+
   return {
     makeOptions,
     setToken,

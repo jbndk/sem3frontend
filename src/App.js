@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react"
 import facade from "./apiFacade";
 import TwoJokes from './jokes';
 import DestinationPage from './destination';
+import FavouritePage from './favourites';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,7 +19,6 @@ import {
 function LogIn({ login, errorMessage, setErrorMessage }) {
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
-
 
   const performLogin = (evt) => {
     evt.preventDefault();
@@ -75,7 +75,8 @@ function Header({ isLoggedin, loginMsg }) {
         <li><NavLink activeClassName="active" to="/jokes">Jokes</NavLink></li>
         </>
       )}
-              <li><NavLink activeClassName="active" to="/destination">Destination</NavLink></li>
+      <li><NavLink activeClassName="active" to="/favourites">Favourites</NavLink></li>
+      <li><NavLink activeClassName="active" to="/destination">Destination</NavLink></li>
       <li><NavLink activeClassName="active" to="/login-out"> {loginMsg}  </NavLink></li>
       <li><NavLink activeClassName="active" to="/home2">Home2 </NavLink></li>
       <li><NavLink activeClassName="active" to="/readme">READ ME</NavLink></li>
@@ -138,6 +139,10 @@ function App() {
           <Destination />
         </Route>
 
+        <Route exact path="/favourites">
+          <Favourites />
+        </Route>
+
         <Route path="/jokes">
           <Jokes />
         </Route>
@@ -193,6 +198,14 @@ function Destination() {
   );
 }
 
+function Favourites() {
+  return (
+    <div>
+      <FavouritePage />
+    </div>
+  );
+}
+
 const NoMatch = () => {
   return (
     <div>
@@ -237,3 +250,4 @@ const ReadMe = () => {
 };
 
 export default App;
+export {LogIn};

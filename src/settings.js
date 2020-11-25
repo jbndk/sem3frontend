@@ -1,3 +1,3 @@
-const mainURL = "http://localhost:8080/sem3/api/destination/open/";
+const mainURL = "http://localhost:8080/sem3";
 
 export default mainURL;
