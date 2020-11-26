@@ -16,6 +16,10 @@ function apiFacade() {
   const getToken = () => {
     return localStorage.getItem('jwtToken')
   }
+
+  const getUsername = () => {
+    return localStorage.getItem('userName')
+  }
   const loggedIn = () => {
     const loggedIn = getToken() != null;
     return loggedIn;
@@ -28,8 +32,8 @@ function apiFacade() {
     const options = makeOptions("POST", true, { username: user, password: password });
     return fetch(URL + "/api/login", options)
       .then(handleHttpErrors)
-      .then(res => { 
-        setToken(res.token) ;
+      .then(res => {
+        setToken(res.token);
       })
   }
 
@@ -62,6 +66,7 @@ function apiFacade() {
   }
 
   return {
+    getUsername,
     makeOptions,
     setToken,
     getToken,
