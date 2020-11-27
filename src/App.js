@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from "react"
 import facade from "./apiFacade";
-import TwoJokes from './jokes';
 import DestinationPage from './destination';
+import ProfilePage from './myprofile';
 import FavouritePage from './favourites';
 import {
   BrowserRouter as Router,
@@ -72,20 +72,26 @@ function Header({ isLoggedin, loginMsg }) {
       <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
       {isLoggedin && (
         <>
-        <li><NavLink activeClassName="active" to="/jokes">Jokes</NavLink></li>
+        <li><NavLink activeClassName="active" to="/myprofile">My Profile</NavLink></li>
+        <li><NavLink activeClassName="active" to="/favourites">Favourites</NavLink></li>
+        <li><NavLink activeClassName="active" to="/destination">Destination</NavLink></li>
         </>
       )}
-      <li><NavLink activeClassName="active" to="/favourites">Favourites</NavLink></li>
-      <li><NavLink activeClassName="active" to="/destination">Destination</NavLink></li>
+            {isLoggedin && (
+        <>
+        <li><NavLink activeClassName="active" to="/adminpage">Admin page</NavLink></li>
+        </>
+      )}
+
       <li><NavLink activeClassName="active" to="/login-out"> {loginMsg}  </NavLink></li>
-      <li><NavLink activeClassName="active" to="/home2">Home2 </NavLink></li>
       <li><NavLink activeClassName="active" to="/readme">READ ME</NavLink></li>
     </ul>
   );
 }
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const logout = () => {
@@ -131,8 +137,8 @@ function App() {
             )}
         </Route>
 
-        <Route exact path="/home2">
-          <Home2 />
+        <Route exact path="/myprofile">
+          <MyProfile />
         </Route>
 
         <Route exact path="/destination">
@@ -141,10 +147,6 @@ function App() {
 
         <Route exact path="/favourites">
           <Favourites />
-        </Route>
-
-        <Route path="/jokes">
-          <Jokes />
         </Route>
         
         <Route path="/readme">
@@ -173,19 +175,10 @@ function Home() {
   );
 }
 
-function Home2() {
+function MyProfile() {
   return (
     <div>
-      <h2>Home2</h2>
-    </div>
-  );
-}
-
-function Jokes() {
-  return (
-    <div>
-      <h2>Two jokes</h2>
-      <TwoJokes />
+      <ProfilePage />
     </div>
   );
 }
