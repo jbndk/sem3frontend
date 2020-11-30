@@ -10,16 +10,23 @@ function handleHttpErrors(res) {
 }
 
 function apiFacade() {
+
   const setToken = (token) => {
     localStorage.setItem('jwtToken', token)
   }
+
   const getToken = () => {
     return localStorage.getItem('jwtToken')
   }
 
+  const setUsername = (user) => {
+      localStorage.setItem('userName', user)
+    }
+
   const getUsername = () => {
     return localStorage.getItem('userName')
   }
+
   const loggedIn = () => {
     const loggedIn = getToken() != null;
     return loggedIn;
@@ -33,7 +40,9 @@ function apiFacade() {
     return fetch(URL + "/api/login", options)
       .then(handleHttpErrors)
       .then(res => {
+        console.log(res);
         setToken(res.token);
+        setUsername(res.username);
       })
   }
 
