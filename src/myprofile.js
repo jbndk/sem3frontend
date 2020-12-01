@@ -10,7 +10,7 @@ const MyProfile = () => {
     const [userMessage, setUserMessage] = useState("");
     
     useEffect(() => {
-        fetch(mainURL + "/api/info/user", facade.makeOptions("GET", true))
+        fetch(mainURL + "/api/user/user", facade.makeOptions("GET", true))
         .then((res) => res.json())
         .then((data) => {
             console.log(data);

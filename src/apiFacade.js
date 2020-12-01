@@ -48,12 +48,12 @@ function apiFacade() {
 
   const fetchUserData = () => {
     const options = makeOptions("GET", true); //True add's the token
-    return fetch(URL + "/api/info/user", options).then(handleHttpErrors);
+    return fetch(URL + "/api/user/user", options).then(handleHttpErrors);
   }
 
   const fetchAdminData = async () => {
     const options = makeOptions("GET", true); //True add's the token
-    const res = await fetch(URL + "/api/info/admin", options);
+    const res = await fetch(URL + "/api/user/admin", options);
     return handleHttpErrors(res);
   }
 

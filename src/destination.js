@@ -83,7 +83,7 @@ const GetDestination = () => {
                             </tr>
                             <tr>
                                 <th>Currency vs USD</th>
-                                <td> {countryData.rates.DKK} </td>
+                                <td> {countryData.fxRate} </td>
                             </tr>
                             <tr>
                                 <th>Covid-19 data last updated</th>
