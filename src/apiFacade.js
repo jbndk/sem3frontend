@@ -46,9 +46,10 @@ function apiFacade() {
       })
   }
 
-  const fetchUserData = () => {
+  const fetchUserData = async () => {
     const options = makeOptions("GET", true); //True add's the token
-    return fetch(URL + "/api/user/user", options).then(handleHttpErrors);
+    const res = await fetch(URL + "/api/user/user", options);
+    return handleHttpErrors(res);
   }
 
   const fetchAdminData = async () => {
@@ -76,6 +77,7 @@ function apiFacade() {
 
   return {
     getUsername,
+    handleHttpErrors,
     makeOptions,
     setToken,
     getToken,

@@ -11,6 +11,7 @@ const GetDestination = () => {
     const [countryData, setCountryData] = useState("");
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [savedStatus, setSavedStatus] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(false);
 
     const fetchCountryData = (evt) => {
         evt.preventDefault();
@@ -22,11 +23,19 @@ const GetDestination = () => {
             }
         }
         fetch(mainURL + "/api/destination/open/" + country, options)
-            .then((res) => res.json())
-            .then((data) => {
-                setCountryData(data);
+            .then(facade.handleHttpErrors)
+            .then((res) => {
+                setErrorMessage(false);
+                setCountryData(res);
                 setFormSubmitted(true);
-            });
+                setErrorMessage("");
+            }).catch((error) => {
+              error.fullError.then((err) => {
+                setErrorMessage(true);
+                setFormSubmitted(false);
+                console.log("Error: ", errorMessage);
+              })
+            })
     }
 
 
@@ -43,11 +52,14 @@ const GetDestination = () => {
             }
         }
         fetch(mainURL + "/api/destination/open/" + country + "/" + "user", options)
-            .then((res) => console.log(res.json()));
+            .then((res) => {
+                console.log(res.json());
+                setSavedStatus(true);
+            });
     }
 
     return (
-        <div>
+        <div class="sm col-8">
             <br />
             <h2>Write country name:</h2>
             <br />
@@ -62,7 +74,7 @@ const GetDestination = () => {
             <br /><br />
 
             {formSubmitted && (
-                <div class="sm col-8">
+                <div>
                     <table class="table">
                         <tbody>
                             <tr>
@@ -83,7 +95,7 @@ const GetDestination = () => {
                             </tr>
                             <tr>
                                 <th>Currency vs USD</th>
-                                <td> {countryData.fxRate} </td>
+                                <td>{Math.round(countryData.fxRate* 100.0) / 100.0}</td>
                             </tr>
                             <tr>
                                 <th>Covid-19 data last updated</th>
@@ -110,10 +122,18 @@ const GetDestination = () => {
 
                     <button className="btn btn-primary" onClick={saveFavourite}>Save as favourite</button>
 
-                    <p>{country} was saved: {savedStatus.valueOf}</p>
+                    {savedStatus && (
+                    <p>{country + ' was saved as favourite!'}</p>
+                    )}
 
                 </div>
             )}
+
+                    {errorMessage && (
+                    <div className="col-sm-4">
+                    <div className="alert alert-danger" role="alert">{errorMessage ? 'Destination not found' : ''}</div>
+                    </div>
+                    )}
         </div>
 
     )
