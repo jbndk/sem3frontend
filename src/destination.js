@@ -9,9 +9,12 @@ const GetDestination = () => {
 
     const [country, setCountry] = useState("");
     const [countryData, setCountryData] = useState("");
+    const [countryNameFavourite, setCountryNameFavourite] = useState("");
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [savedStatus, setSavedStatus] = useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
+    const [favouriteAlreadySaved, setFavouriteAlreadySaved] = useState(false);
+
 
     const fetchCountryData = (evt) => {
         evt.preventDefault();
@@ -26,6 +29,8 @@ const GetDestination = () => {
             .then(facade.handleHttpErrors)
             .then((res) => {
                 setErrorMessage(false);
+                setSavedStatus(false);
+                setFavouriteAlreadySaved(false);
                 setCountryData(res);
                 setFormSubmitted(true);
                 setErrorMessage("");
@@ -52,9 +57,17 @@ const GetDestination = () => {
             }
         }
         fetch(mainURL + "/api/destination/open/" + country + "/" + "user", options)
-            .then((res) => {
-                console.log(res.json());
+            .then(res => res.json())   
+            .then(res => {
+                console.log(res);
+                setCountryNameFavourite(country);
+                if (res === 'You have already saved the destination') {
+                setSavedStatus(false);
+                setFavouriteAlreadySaved(true);
+            } else {
                 setSavedStatus(true);
+                setFavouriteAlreadySaved(false);
+            }
             });
     }
 
@@ -95,7 +108,7 @@ const GetDestination = () => {
                             </tr>
                             <tr>
                                 <th>Currency vs USD</th>
-                                <td>{Math.round(countryData.fxRate* 100.0) / 100.0}</td>
+                                <td>{Math.round(countryData.fxRate * 10000) / 10000}</td>
                             </tr>
                             <tr>
                                 <th>Covid-19 data last updated</th>
@@ -122,8 +135,14 @@ const GetDestination = () => {
 
                     <button className="btn btn-primary" onClick={saveFavourite}>Save as favourite</button>
 
+                    <br/><br/>
+
                     {savedStatus && (
-                    <p>{country + ' was saved as favourite!'}</p>
+                    <div class="alert alert-success" role="alert">{countryNameFavourite + ' was saved as favourite!'}</div>
+                    )}
+
+                    {favouriteAlreadySaved && (
+                    <div className="alert alert-danger" role="alert">{'You have already saved ' + countryNameFavourite + ' as favourite!'}</div>
                     )}
 
                 </div>
@@ -134,6 +153,7 @@ const GetDestination = () => {
                     <div className="alert alert-danger" role="alert">{errorMessage ? 'Destination not found' : ''}</div>
                     </div>
                     )}
+                    <br/><br/><br/>
         </div>
 
     )
