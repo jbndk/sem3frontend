@@ -33,7 +33,7 @@ function LogIn({ login, errorMessage, setErrorMessage }) {
   return (
     <div>
       <form onChange={onChange} >
-        <div className="col-sm-1">
+        <div className="col-sm-2">
           <br />
           <h2>Login</h2>
           <input class="form-control" placeholder="User Name" id="username" />
@@ -70,6 +70,7 @@ function Header({ isLoggedin, loginMsg }) {
   return (
     <ul className="header">
       <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+      
       {isLoggedin && (
         <>
         <li><NavLink activeClassName="active" to="/myprofile">My Profile</NavLink></li>
@@ -77,7 +78,8 @@ function Header({ isLoggedin, loginMsg }) {
         <li><NavLink activeClassName="active" to="/destination">Destination</NavLink></li>
         </>
       )}
-            {isLoggedin && (
+      
+      {isLoggedin && (
         <>
         <li><NavLink activeClassName="active" to="/adminpage">Admin page</NavLink></li>
         </>
@@ -138,19 +140,15 @@ function App() {
         </Route>
 
         <Route exact path="/myprofile">
-          <MyProfile />
+        {loggedIn ? <MyProfile /> : <AccessDenied />}     
         </Route>
 
         <Route exact path="/destination">
-          <Destination />
+        {loggedIn ? <Destination /> : <AccessDenied />}          
         </Route>
 
         <Route exact path="/favourites">
-          <Favourites />
-        </Route>
-        
-        <Route path="/readme">
-          <ReadMe />
+          {loggedIn ? <Favourites /> : <AccessDenied />}
         </Route>
 
         <Route path="*">
@@ -203,9 +201,23 @@ const NoMatch = () => {
   return (
     <div>
       <h3>
-        No match found for this.
+      No match found for this.
       </h3>
     </div>
+  );
+};
+
+
+const AccessDenied = () => {
+  return (
+      <>
+      <br/><br/>
+      <div class="alert alert-danger" role="alert">
+      <h3>
+        Access denied. Please log in.
+      </h3>
+      </div>
+      </>
   );
 };
 

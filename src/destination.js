@@ -1,8 +1,9 @@
 import mainURL from "./settings";
 import facade from "./apiFacade";
+import moment from 'moment'
 import LogIn from "./App";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const GetDestination = () => {
@@ -15,7 +16,6 @@ const GetDestination = () => {
     const [errorMessage, setErrorMessage] = useState(false);
     const [favouriteAlreadySaved, setFavouriteAlreadySaved] = useState(false);
 
-
     const fetchCountryData = (evt) => {
         evt.preventDefault();
         let options = {
@@ -25,9 +25,11 @@ const GetDestination = () => {
                 'Accept': 'application/json',
             }
         }
+
         fetch(mainURL + "/api/destination/open/" + country, options)
             .then(facade.handleHttpErrors)
             .then((res) => {
+                setCountryNameFavourite(country);
                 setErrorMessage(false);
                 setSavedStatus(false);
                 setFavouriteAlreadySaved(false);
@@ -43,7 +45,6 @@ const GetDestination = () => {
             })
     }
 
-
     const onChange = (evt) => {
         setCountry(evt.target.value)
     }
@@ -56,11 +57,10 @@ const GetDestination = () => {
                 'Accept': 'application/json',
             }
         }
-        fetch(mainURL + "/api/destination/open/" + country + "/" + "user", options)
+        const userName = localStorage.getItem('userName');
+        fetch(mainURL + "/api/destination/open/" + country + "/" + userName, options)
             .then(res => res.json())   
             .then(res => {
-                console.log(res);
-                setCountryNameFavourite(country);
                 if (res === 'You have already saved the destination') {
                 setSavedStatus(false);
                 setFavouriteAlreadySaved(true);
@@ -100,7 +100,7 @@ const GetDestination = () => {
                             </tr>
                             <tr>
                                 <th>Population</th>
-                                <td>{countryData.population}</td>
+                                <td>{countryData.population.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Currency ISO code</th>
@@ -112,19 +112,19 @@ const GetDestination = () => {
                             </tr>
                             <tr>
                                 <th>Covid-19 data last updated</th>
-                                <td>{countryData.last_update}</td>
+                                <td>{moment(countryData.last_update).format('MMMM Do YYYY HH:mm')}</td>
                             </tr>
                             <tr>
                                 <th>Total COVID-19 cases</th>
-                                <td>{countryData.cases}</td>
+                                <td>{countryData.cases.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Total COVID-19 deaths</th>
-                                <td>{countryData.deaths}</td>
+                                <td>{countryData.deaths.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Total COVID-19 patients recovered</th>
-                                <td>{countryData.recovered}</td>
+                                <td>{countryData.recovered.toLocaleString()}</td>
                             </tr>
                             <tr>
                                 <th>Infectionrate</th>
@@ -138,11 +138,11 @@ const GetDestination = () => {
                     <br/><br/>
 
                     {savedStatus && (
-                    <div class="alert alert-success" role="alert">{countryNameFavourite + ' was saved as favourite!'}</div>
+                    <div class="alert alert-success" role="alert">{countryNameFavourite.charAt(0).toUpperCase() + countryNameFavourite.slice(1) + ' was saved as favourite!'}</div>
                     )}
 
                     {favouriteAlreadySaved && (
-                    <div className="alert alert-danger" role="alert">{'You have already saved ' + countryNameFavourite + ' as favourite!'}</div>
+                    <div className="alert alert-danger" role="alert">{'You have already saved ' + countryNameFavourite.charAt(0).toUpperCase() + countryNameFavourite.slice(1) + ' as favourite!'}</div>
                     )}
 
                 </div>

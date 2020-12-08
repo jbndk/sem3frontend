@@ -11,6 +11,10 @@ code {
     monospace;
 }
 
+.borderright {
+  border-right: solid 2px rgb(187, 187, 187);
+}
+
 ul.header {
   list-style-type: none;
   margin: 0;
