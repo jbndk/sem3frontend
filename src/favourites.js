@@ -89,7 +89,7 @@ function CountryData(country) {
                 setCountryData(res);
             })
 
-     // }, [])
+     }, [])
 
 return (
   <div>
