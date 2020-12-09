@@ -4,6 +4,7 @@ import facade from "./apiFacade";
 import DestinationPage from './destination';
 import ProfilePage from './myprofile';
 import FavouritePage from './favourites';
+import UserList from './admin';
 import {
   BrowserRouter as Router,
   Switch,
@@ -66,7 +67,7 @@ function LoggedIn() {
 
 }
 
-function Header({ isLoggedin, loginMsg }) {
+function Header({ isLoggedin, loginMsg, isAdmin }) {
   return (
     <ul className="header">
       <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
@@ -101,6 +102,17 @@ function App() {
     setLoggedIn(false);
   }
 
+  useEffect(() => {
+    const role = facade.getRole;
+
+    if(role == "admin") {
+      setIsAdmin(true);
+      console.log("App says that user is admin. Role is: " + role)
+    } else {
+      console.log("App says that user is NOT admin. Role is: " + role)
+    }
+  }, [])
+
   const login = (user, pass) => {
     facade.login(user, pass)
       .then((res) => {
@@ -117,7 +129,7 @@ function App() {
   return (
     <div class="col-sm">
       
-      <Header loginMsg={loggedIn ? 'You are logged in' : 'Please log in'} isLoggedin={loggedIn} />
+      <Header loginMsg={loggedIn ? 'You are logged in' : 'Please log in'} isLoggedin={loggedIn} isAdmin={isAdmin} />
 
       <Switch>
 
@@ -145,6 +157,10 @@ function App() {
 
         <Route exact path="/destination">
         {loggedIn ? <Destination /> : <AccessDenied />}          
+        </Route>
+
+        <Route exact path="/adminpage">
+        {loggedIn ? <Admin /> : <AccessDenied />}          
         </Route>
 
         <Route exact path="/favourites">
@@ -193,6 +209,14 @@ function Favourites() {
   return (
     <div>
       <FavouritePage />
+    </div>
+  );
+}
+
+function Admin() {
+  return (
+    <div>
+      <UserList />
     </div>
   );
 }

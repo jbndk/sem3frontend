@@ -27,6 +27,15 @@ function apiFacade() {
     return localStorage.getItem('userName')
   }
 
+  const setRole = (role) => {
+    console.log(role)
+    localStorage.setItem('role', role);
+  }
+
+  const getRole = () => {
+    return localStorage.getItem('role')
+  }
+
   const loggedIn = () => {
     const loggedIn = getToken() != null;
     return loggedIn;
@@ -43,6 +52,7 @@ function apiFacade() {
         console.log(res);
         setToken(res.token);
         setUsername(res.username);
+        setRole(res.role);
       })
   }
 

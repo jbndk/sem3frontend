@@ -15,6 +15,7 @@ import {
 
 
 const RemoveFavourite = (country) => {
+    //HUSK MAKE OPTIONS MED DELETE HER
     fetch(mainURL + "/api/destination/open/favourites/")
     .then((res) => res.json())
     .then((data) => {
@@ -62,7 +63,7 @@ const GetFavourites = () => {
                 </div>
 
                 <div class="col-lg">
-                <CountryData />
+                
                 </div>
                 </div>
                 </div>
