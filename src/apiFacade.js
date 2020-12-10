@@ -67,6 +67,14 @@ function apiFacade() {
     const res = await fetch(URL + "/api/user/admin", options);
     return handleHttpErrors(res);
   }
+  const addNewUser = (user, password) => {
+    const options = makeOptions("POST", true, {
+      username: user,
+      password: password,
+    });
+    return fetch(URL+"/api/user/new", options)
+      .then(handleHttpErrors)
+  } 
 
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -95,7 +103,8 @@ function apiFacade() {
     login,
     logout,
     fetchUserData,
-    fetchAdminData
+    fetchAdminData,
+    addNewUser
   }
 }
 const facade = apiFacade();

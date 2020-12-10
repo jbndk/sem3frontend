@@ -5,6 +5,7 @@ import DestinationPage from './destination';
 import ProfilePage from './myprofile';
 import FavouritePage from './favourites';
 import UserList from './admin';
+import NewUserPage from './createNewUser';
 import {
   BrowserRouter as Router,
   Switch,
@@ -88,6 +89,7 @@ function Header({ isLoggedin, loginMsg, isAdmin }) {
 
       <li><NavLink activeClassName="active" to="/login-out"> {loginMsg}  </NavLink></li>
       <li><NavLink activeClassName="active" to="/readme">READ ME</NavLink></li>
+      <li><NavLink activeClassName="active" to="/addNewUser">New User</NavLink></li>
     </ul>
   );
 }
@@ -167,6 +169,10 @@ function App() {
           {loggedIn ? <Favourites /> : <AccessDenied />}
         </Route>
 
+        <Route exact path="/addNewUser">
+          <CreateNewUser />
+        </Route>
+
         <Route path="*">
           <NoMatch />
         </Route>
@@ -231,6 +237,13 @@ const NoMatch = () => {
   );
 };
 
+function CreateNewUser() {
+  return (
+    <div>
+      <NewUserPage />
+    </div>
+  );
+}
 
 const AccessDenied = () => {
   return (
