@@ -53,11 +53,8 @@ function LoggedIn() {
   const [dataFromServer, setDataFromServer] = useState("Loading...")
 
   useEffect(() => {
-    facade.fetchUserData().then(data => setDataFromServer(data.msg));
-  }, [])
-
-  useEffect(() => {
-    facade.fetchAdminData().then(data => setDataFromServer(data.msg));
+     facade.fetchUserData().then(data => setDataFromServer(data.msg));
+     facade.fetchAdminData().then(data => setDataFromServer(data.msg));  
   }, [])
 
   return (
@@ -88,7 +85,6 @@ function Header({ isLoggedin, loginMsg, isAdmin }) {
       )}
 
       <li><NavLink activeClassName="active" to="/login-out"> {loginMsg}  </NavLink></li>
-      <li><NavLink activeClassName="active" to="/readme">READ ME</NavLink></li>
       <li><NavLink activeClassName="active" to="/addNewUser">New User</NavLink></li>
     </ul>
   );
@@ -255,39 +251,6 @@ const AccessDenied = () => {
       </h3>
       </div>
       </>
-  );
-};
-
-const ReadMe = () => {
-  return (
-    <div>
-      <h3>
-        READ ME
-      </h3>
-      <br/>
-      <p>
-        <b>Welcome to our REACT App startcode!</b>
-        <br/>
-        <br/>
-        IMPORTANT! Before using our startcode, make sure that you have installed <a href="https://nodejs.org/en/">Node.js</a>.
-        <br/>
-        <br/>
-        <b>How to use:</b>
-        <ul>
-          <li>Download the project <a href="https://github.com/jbndk/CA3-Frontend">here</a></li>
-          <li>Delete the .git file from the project</li>
-          <li>Open the folder in Git Bash or a similar program</li>
-          <li>Run <i>npm install</i></li>
-          <li>Run <i>npm bootstrap</i></li>
-          <li>Run <i>npm install react-router-dom</i></li>
-          <li>Run <i>npm start</i> to open the project in a browser with hot reload</li>
-          <li>Run <i>code .</i> to open the project in Visual Studio Code</li>
-          <li>Remember to change the URL in settings.js to point on your own REST endpoint</li>
-        </ul>
-        
-        <b>You are now done - happy coding!</b>
-        </p>
-    </div>
   );
 };
 

@@ -2,29 +2,31 @@ import mainURL from "./settings";
 import facade from "./apiFacade";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from "react"
-import { Col } from "react-bootstrap";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect,
-    useHistory,
-    useLocation
-  } from "react-router-dom";
-
-
-const RemoveFavourite = (country) => {
-    //HUSK MAKE OPTIONS MED DELETE HER
-    fetch(mainURL + "/api/destination/open/favourites/")
-    .then((res) => res.json())
-    .then((data) => {
-    console.log("");      
-})}
 
 const GetFavourites = () => {
     const [favourites, setFavourites] = useState([]);
-    const [user, setUser] = useState(facade.getUsername);;
+    const [user, setUser] = useState(facade.getUsername);
+    const [deletedFavourite, setDeletedFavourite] = useState("");
+    const [deletedFavouriteExists, setDeletedFavouriteExists] = useState(false);
+    
+
+    const RemoveFavourite = (country, user) => {
+    
+        let options = {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                'Accept': 'application/json',
+            }
+        }
+    
+        fetch(mainURL + "/api/destination/open/" + country + "/" + user, options)
+        .then((res) => res.json())
+        .then((data) => {
+        console.log(data);
+        setDeletedFavouriteExists(true)
+        setDeletedFavourite(data);
+    })}
 
     useEffect(() => {
         fetch(mainURL + "/api/destination/open/favourites/" + user)
@@ -35,38 +37,33 @@ const GetFavourites = () => {
       }, [])
 
     return (
-        <div class="container-align-left">
+        <div className="container-align-left">
         <br /><br />
-        <div class="row">
-        <div class="col-sm">
-        <div class="borderright">
-            <div class="list-group">
+        <div className="row">
+        <div className="col-sm">
+                    <div className="list-group">
                 <h2>Your saved countries: </h2>
                 <br></br>
-                <table class="table">
+                <table className="table">
                         
                     {favourites.map((country, index) => {
                         
                         return (
                         <tr>
-                        <td key={index}><Link to={{pathname: "/Destination", state: {destination: country}}}>{country.charAt(0).toUpperCase() + country.slice(1)}</Link></td>
-                        <td><button type="button" class="btn btn-outline-danger" onClick={RemoveFavourite(country)}>Remove</button></td>
-                        
-                        <td key={index}><button type="button" class="btn btn-outline-info" onClick={() => CountryData(country)}>Show data</button></td>
-
+                        <td key={index}>{country.charAt(0).toUpperCase() + country.slice(1)}</td>
+                        <td><button type="button" class="btn btn-outline-danger" onClick={() => RemoveFavourite(country,user)}>Remove</button></td>
                         </tr>
                         )
                     })}
                 </table>
                 </div>
-                </div>
-                </div>
-
-                <div class="col-lg">
-                
+                {deletedFavouriteExists && (
+                    `Your favourite ${deletedFavourite.charAt(0).toUpperCase()}${deletedFavourite.slice(1)} was deleted.`
+                )}
                 </div>
                 </div>
                 </div>
+               
     )
 }
 
