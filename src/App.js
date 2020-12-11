@@ -39,7 +39,7 @@ function LogIn({ login, errorMessage, setErrorMessage }) {
           <br />
           <h2>Login</h2>
           <input class="form-control" placeholder="User Name" id="username" />
-          <input class="form-control" placeholder="Password" id="password" />
+          <input type="password" class="form-control" placeholder="Password" id="password" />
           <br />
           <button class="btn btn-primary" onClick={performLogin}>Login</button>
         </div>
@@ -68,8 +68,11 @@ function LoggedIn() {
 function Header({ isLoggedin, loginMsg, isAdmin }) {
   return (
     <ul className="header">
-      <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
       
+      {!isLoggedin && (
+      <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
+      )}
+
       {isLoggedin && (
         <>
         <li><NavLink activeClassName="active" to="/myprofile">My Profile</NavLink></li>
@@ -85,7 +88,11 @@ function Header({ isLoggedin, loginMsg, isAdmin }) {
       )}
 
       <li><NavLink activeClassName="active" to="/login-out"> {loginMsg}  </NavLink></li>
+
+      {!isLoggedin && (
       <li><NavLink activeClassName="active" to="/addNewUser">New User</NavLink></li>
+      )}
+
     </ul>
   );
 }

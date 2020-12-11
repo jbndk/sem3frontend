@@ -44,7 +44,7 @@ const onChange = (evt) => {
             <form onChange={onChange}>
               <input className="form-control" placeholder="User Name" id="username" />
               <br />
-              <input className="form-control" placeholder="Password" id="password" />
+              <input type="password" className="form-control" placeholder="Password" id="password" />
             </form>
             <br/>
             <button className="btn btn-primary" onClick={saveNewUser}>

@@ -10,6 +10,14 @@ const GetFavourites = () => {
     const [deletedFavouriteExists, setDeletedFavouriteExists] = useState(false);
     
 
+    const FetchFavourites = () => {
+        fetch(mainURL + "/api/destination/open/favourites/" + user)
+        .then((res) => res.json())
+        .then((data) => {
+            setFavourites(data);
+        });
+    }
+
     const RemoveFavourite = (country, user) => {
     
         let options = {
@@ -26,14 +34,12 @@ const GetFavourites = () => {
         console.log(data);
         setDeletedFavouriteExists(true)
         setDeletedFavourite(data);
-    })}
+        FetchFavourites();
+    }
+    )}
 
     useEffect(() => {
-        fetch(mainURL + "/api/destination/open/favourites/" + user)
-        .then((res) => res.json())
-        .then((data) => {
-            setFavourites(data);
-        });
+        FetchFavourites();
       }, [])
 
     return (
