@@ -8,6 +8,8 @@ const UserList = () => {
     const [users, setUsers] = useState([]);
     const [reqSent, setReqSent] = useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
+    const [usersFavourites, setUsersFavourites] = useState([]);
+    const [userSelected, setUserSelected] = useState(false);
 
     const getUsers = (evt) => {
         evt.preventDefault();
@@ -32,11 +34,21 @@ const UserList = () => {
               })
             })
     }
+
+    const GetUsersFavourites = (user) => {
+        fetch(mainURL + "/api/destination/open/favourites/" + user)
+        .then((res) => res.json())
+        .then((data) => {
+            setUsersFavourites(data);
+            setUserSelected(true);
+            console.log(data)
+            });
+    }
             
     return (
-        <div className="col-sm-4">
+        <div className="col-sm-5">
                     <br />
-                    <h2>Press button to get a list of all registered non-admin users: </h2>
+                    <h2>Press button to get a list of all registered non-admin usernames: </h2>
                     <br/>
                     <button className="btn btn-primary" onClick={getUsers}>Get all users</button>
                     <br/>
@@ -49,11 +61,29 @@ const UserList = () => {
                         return (
                         <tr>
                         <td key={user}>{user}</td>
+                        <td><button type="button" size="sm" class="btn btn-outline-info" onClick={() => GetUsersFavourites(user)}>
+                            Show users saved favourites
+                            </button></td>
                         </tr>
                         )
                     })}
                 </table>
                 </div>
+                )}
+
+                {userSelected && (
+                    <div>
+                        <table className="table2" width="100%">                        
+                        {usersFavourites.map((country) => {
+
+                        return (
+                        <tr>
+                        <td key={country}>{country.charAt(0).toUpperCase() + country.slice(1)}</td>
+                        </tr>
+                        )
+                    })}
+                </table>
+                    </div>
                 )}
         </div>
     )
