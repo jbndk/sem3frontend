@@ -1,8 +1,7 @@
 import { useState } from "react";
 import mainURL from "./settings";
 import facade from "./apiFacade";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Col, Row , Table } from 'react-bootstrap';
+import { Container, Col, Row , Table, Button } from 'react-bootstrap';
 
 
 
@@ -54,7 +53,7 @@ const UserList = () => {
     return (
         <Container fluid>
             
-        <div>
+        
                     
                     <br />
                     <h2>Press button to get a list of all registered non-admin usernames: </h2>
@@ -67,33 +66,26 @@ const UserList = () => {
 
             {reqSent && (
                 
-                
                 <div>
-               <table className="table">
                     {users.map((user) => {
                         return (
-                            <Table striped bordered hover variant="dark">
+                            <Table striped bordered hover>
                         <tr>
-                        <td key={user} colSpan="3">{user}</td>
-                        <td><button type="button" size="sm" class="btn btn-outline-info" onClick={() => GetUsersFavourites(user)}>
-                            Show users saved favourites
-                            </button></td>
+                        <td key={user} colSpan="4">{user}</td>
+                        <td colSpan="4"><Button colSpan="4" variant="info" onClick={() => GetUsersFavourites(user)}>Show users favourites</Button>{' '}</td>
                         </tr>
                         </Table>
                         )
                     })}
-                </table>
-
                 </div>
                 
 
-                
                 )}
                 </Col>
                     <Col>
                 {userSelected && (
 
-                    <div>
+                    
                         <Table striped bordered hover>
                             <thead>
                                 <th>Countries saved by user: {selectedUser}</th>
@@ -108,13 +100,13 @@ const UserList = () => {
                         )
                     })}
                 </Table>
-                    </div>
+                    
 
                 )}
                 </Col>
                 </Row>
                 
-        </div>
+        
         
         </Container>
     )
