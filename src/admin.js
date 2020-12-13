@@ -2,6 +2,10 @@ import { useState } from "react";
 import mainURL from "./settings";
 import facade from "./apiFacade";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Col, Row , Table } from 'react-bootstrap';
+
+
+
 
 const UserList = () => {
 
@@ -10,6 +14,7 @@ const UserList = () => {
     const [errorMessage, setErrorMessage] = useState(false);
     const [usersFavourites, setUsersFavourites] = useState([]);
     const [userSelected, setUserSelected] = useState(false);
+    const [selectedUser , setSelectedUser] = useState('');
 
     const getUsers = (evt) => {
         evt.preventDefault();
@@ -41,51 +46,77 @@ const UserList = () => {
         .then((data) => {
             setUsersFavourites(data);
             setUserSelected(true);
+            setSelectedUser(user)
             console.log(data)
             });
     }
             
     return (
-        <div className="col-sm-5">
+        <Container fluid>
+            
+        <div>
+                    
                     <br />
                     <h2>Press button to get a list of all registered non-admin usernames: </h2>
                     <br/>
                     <button className="btn btn-primary" onClick={getUsers}>Get all users</button>
                     <br/>
-                    <br/>            
+                    <br/>        
+                      <Row>
+                          <Col>
 
             {reqSent && (
+                
+                
                 <div>
                <table className="table">
                     {users.map((user) => {
                         return (
+                            <Table striped bordered hover variant="dark">
                         <tr>
-                        <td key={user}>{user}</td>
+                        <td key={user} colSpan="3">{user}</td>
                         <td><button type="button" size="sm" class="btn btn-outline-info" onClick={() => GetUsersFavourites(user)}>
                             Show users saved favourites
                             </button></td>
                         </tr>
+                        </Table>
                         )
                     })}
                 </table>
-                </div>
-                )}
 
+                </div>
+                
+
+                
+                )}
+                </Col>
+                    <Col>
                 {userSelected && (
+
                     <div>
-                        <table className="table2" width="100%">                        
+                        <Table striped bordered hover>
+                            <thead>
+                                <th>Countries saved by user: {selectedUser}</th>
+                            </thead>                     
                         {usersFavourites.map((country) => {
 
                         return (
+                            
                         <tr>
                         <td key={country}>{country.charAt(0).toUpperCase() + country.slice(1)}</td>
                         </tr>
                         )
                     })}
-                </table>
+                </Table>
                     </div>
+
                 )}
+                </Col>
+                </Row>
+                
         </div>
+        
+        </Container>
     )
 }
 
