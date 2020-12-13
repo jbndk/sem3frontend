@@ -70,9 +70,10 @@ const UserList = () => {
                     {users.map((user) => {
                         return (
                             <Table striped bordered hover>
+                                <th>User name</th>
                         <tr>
                         <td key={user} colSpan="4">{user}</td>
-                        <td colSpan="4"><Button colSpan="4" variant="info" onClick={() => GetUsersFavourites(user)}>Show users favourites</Button>{' '}</td>
+                        <td colSpan="4"><Button size="sm" variant="info" onClick={() => GetUsersFavourites(user)}>Show users favourites</Button>{' '}</td>
                         </tr>
                         </Table>
                         )
