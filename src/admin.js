@@ -52,9 +52,7 @@ const UserList = () => {
             
     return (
         <Container fluid>
-            
-        
-                    
+
                     <br />
                     <h2>Press button to get a list of all registered non-admin usernames: </h2>
                     <br/>
@@ -69,11 +67,13 @@ const UserList = () => {
                 <div>
                     {users.map((user) => {
                         return (
-                            <Table striped bordered hover>
-                                <th>User name</th>
+                        <Table striped bordered hover>
+                        <th>User name</th>
                         <tr>
-                        <td key={user} colSpan="4">{user}</td>
-                        <td colSpan="4"><Button size="sm" variant="info" onClick={() => GetUsersFavourites(user)}>Show users favourites</Button>{' '}</td>
+                        <td key={user} colSpan="2">{user}</td>
+                        </tr>
+                        <tr>
+                        <td colSpan="1"><Button size="sm" variant="info" onClick={() => GetUsersFavourites(user)}>Show users favourites</Button>{' '}</td>
                         </tr>
                         </Table>
                         )
@@ -86,15 +86,12 @@ const UserList = () => {
                     <Col>
                 {userSelected && (
 
-                    
-                        <Table striped bordered hover>
-                            <thead>
-                                <th>Countries saved by user: {selectedUser}</th>
-                            </thead>                     
-                        {usersFavourites.map((country) => {
-
+                    <Table striped bordered hover>
+                    <thead>
+                    <th>Countries saved by user: {selectedUser}</th>
+                    </thead>                     
+                    {usersFavourites.map((country) => {
                         return (
-                            
                         <tr>
                         <td key={country}>{country.charAt(0).toUpperCase() + country.slice(1)}</td>
                         </tr>
